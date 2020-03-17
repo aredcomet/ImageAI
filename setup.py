@@ -8,7 +8,7 @@ setup(name="imageai",
       author_email='guymodscientist@gmail.com',
       license='MIT',
       packages= find_packages(),
-      install_requires=['numpy','scipy','pillow',"matplotlib", "h5py"],
+      install_requires=['numpy','scipy','pillow',"matplotlib", "h5py", "dhash", "python-opencv"],
       zip_safe=False
 
       )

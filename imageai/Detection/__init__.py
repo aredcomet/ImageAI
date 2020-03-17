@@ -1,3 +1,4 @@
+import dhash
 import cv2
 from imageai.Detection.keras_retinanet.models.resnet import resnet50_retinanet
 from imageai.Detection.keras_retinanet.utils.image import read_image_bgr, read_image_array, read_image_stream, \
@@ -892,9 +893,9 @@ class ObjectDetection:
                             splitted_copy = detected_copy2.copy()[detection_details[1]:detection_details[3],
                                             detection_details[0]:detection_details[2]]
                             if (output_type == "file"):
-                                splitted_image_path = os.path.join(objects_dir,
-                                                                   predicted_class + "-" + str(
-                                                                       counting) + ".jpg")
+                                splitted_image_path = os.path.join(
+                                    objects_dir,
+                                    predicted_class + "::" + str(round((score * 100), 4)) + "::" + str(dhash.dhash_int(Image.fromarray(splitted_copy))) + ".jpg")
                                 pltimage.imsave(splitted_image_path, splitted_copy)
                                 detected_objects_image_array.append(splitted_image_path)
                             elif (output_type == "array"):
@@ -914,7 +915,8 @@ class ObjectDetection:
                             return output_objects_array
                         elif (output_type == "array"):
                             return detected_copy, output_objects_array
-            except:
+            except Exception as e:
+                print(e)
                 raise ValueError(
                     "Ensure you specified correct input image, input type, output type and/or output image path ")
 
@@ -1717,4 +1719,6 @@ class VideoObjectDetection:
                 raise ValueError(
                     "An error occured. It may be that your input video is invalid. Ensure you specified a proper string value for 'output_file_path' is 'save_detected_video' is not False. "
                     "Also ensure your per_frame, per_second, per_minute or video_complete_analysis function is properly configured to receive the right parameters. ")
+
+
 
