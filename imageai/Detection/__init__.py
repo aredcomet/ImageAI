@@ -1,3 +1,4 @@
+from datetime import datetime
 import dhash
 import cv2
 from imageai.Detection.keras_retinanet.models.resnet import resnet50_retinanet
@@ -893,8 +894,10 @@ class ObjectDetection:
                             splitted_copy = detected_copy2.copy()[detection_details[1]:detection_details[3],
                                             detection_details[0]:detection_details[2]]
                             if (output_type == "file"):
+                                now = datetime.now()
                                 splitted_image_path = os.path.join(
                                     objects_dir,
+                                    now.strftime('%Y%m%d::%H%M::'),
                                     predicted_class + "::" + str(round((score * 100), 4)) + "::" + str(dhash.dhash_int(Image.fromarray(splitted_copy))) + ".jpg")
                                 pltimage.imsave(splitted_image_path, splitted_copy)
                                 detected_objects_image_array.append(splitted_image_path)
